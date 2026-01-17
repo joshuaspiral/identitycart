@@ -1,0 +1,511 @@
+[
+    {
+        "id": "gpu-4090",
+        "name": "NVIDIA GeForce RTX 4090",
+        "price": 1699,
+        "specs": {
+            "vram": "24GB GDDR6X",
+            "power": "450W",
+            "perf_score": 10
+        },
+        "repairability_score": 4,
+        "tags": [
+            "gaming",
+            "enthusiast",
+            "4k",
+            "ai-workload"
+        ]
+    },
+    {
+        "id": "gpu-4080-super",
+        "name": "NVIDIA GeForce RTX 4080 Super",
+        "price": 999,
+        "specs": {
+            "vram": "16GB GDDR6X",
+            "power": "320W",
+            "perf_score": 9
+        },
+        "repairability_score": 5,
+        "tags": [
+            "gaming",
+            "high-end",
+            "1440p",
+            "streaming"
+        ]
+    },
+    {
+        "id": "gpu-4070-ti-super",
+        "name": "NVIDIA GeForce RTX 4070 Ti Super",
+        "price": 799,
+        "specs": {
+            "vram": "16GB GDDR6X",
+            "power": "285W",
+            "perf_score": 8.2
+        },
+        "repairability_score": 5,
+        "tags": [
+            "gaming",
+            "value-high",
+            "1440p"
+        ]
+    },
+    {
+        "id": "gpu-4060",
+        "name": "NVIDIA GeForce RTX 4060",
+        "price": 299,
+        "specs": {
+            "vram": "8GB",
+            "power": "115W",
+            "perf_score": 6.5
+        },
+        "repairability_score": 6,
+        "tags": [
+            "gaming",
+            "budget",
+            "1080p",
+            "starter"
+        ]
+    },
+    {
+        "id": "gpu-rx7900xtx",
+        "name": "AMD Radeon RX 7900 XTX",
+        "price": 949,
+        "specs": {
+            "vram": "24GB",
+            "power": "355W",
+            "perf_score": 9.1
+        },
+        "repairability_score": 6,
+        "tags": [
+            "gaming",
+            "high-end",
+            "4k",
+            "rasterization"
+        ]
+    },
+    {
+        "id": "gpu-rx7800xt",
+        "name": "AMD Radeon RX 7800 XT",
+        "price": 499,
+        "specs": {
+            "vram": "16GB",
+            "power": "263W",
+            "perf_score": 7.8
+        },
+        "repairability_score": 7,
+        "tags": [
+            "gaming",
+            "value",
+            "1440p"
+        ]
+    },
+    {
+        "id": "cpu-7800x3d",
+        "name": "AMD Ryzen 7 7800X3D",
+        "price": 369,
+        "specs": {
+            "cores": "8",
+            "boost": "5.0GHz",
+            "cache": "96MB L3"
+        },
+        "repairability_score": 8,
+        "tags": [
+            "gaming",
+            "cpu",
+            "efficiency",
+            "top-tier"
+        ]
+    },
+    {
+        "id": "cpu-14900k",
+        "name": "Intel Core i9-14900K",
+        "price": 549,
+        "specs": {
+            "cores": "24 (8P+16E)",
+            "boost": "6.0GHz",
+            "power": "High"
+        },
+        "repairability_score": 7,
+        "tags": [
+            "productivity",
+            "cpu",
+            "workstation",
+            "gaming"
+        ]
+    },
+    {
+        "id": "lap-mbp14-m3pro",
+        "name": "MacBook Pro 14 (M3 Pro)",
+        "price": 1999,
+        "specs": {
+            "chip": "M3 Pro",
+            "ram": "18GB",
+            "screen": "XDR 120Hz"
+        },
+        "repairability_score": 3,
+        "tags": [
+            "laptop",
+            "creative",
+            "premium",
+            "audio"
+        ]
+    },
+    {
+        "id": "lap-mba-m2",
+        "name": "MacBook Air 13 (M2)",
+        "price": 999,
+        "specs": {
+            "chip": "M2",
+            "ram": "8GB",
+            "weight": "2.7 lbs"
+        },
+        "repairability_score": 3,
+        "tags": [
+            "laptop",
+            "student",
+            "portable",
+            "silent"
+        ]
+    },
+    {
+        "id": "lap-g14",
+        "name": "ROG Zephyrus G14 (2024)",
+        "price": 1599,
+        "specs": {
+            "gpu": "RTX 4060",
+            "screen": "OLED 120Hz",
+            "weight": "3.3 lbs"
+        },
+        "repairability_score": 6,
+        "tags": [
+            "laptop",
+            "gaming",
+            "portable",
+            "student"
+        ]
+    },
+    {
+        "id": "lap-framework-13",
+        "name": "Framework Laptop 13 (AMD Ryzen 7040)",
+        "price": 849,
+        "specs": {
+            "cpu": "Ryzen 5 7640U",
+            "screen": "13.5",
+            "modular": "Yes"
+        },
+        "repairability_score": 10,
+        "tags": [
+            "laptop",
+            "repairable",
+            "eco",
+            "developer",
+            "linux"
+        ]
+    },
+    {
+        "id": "lap-xps-13",
+        "name": "Dell XPS 13 Plus",
+        "price": 1299,
+        "specs": {
+            "screen": "OLED touch",
+            "cpu": "Core i7",
+            "design": "Modern"
+        },
+        "repairability_score": 4,
+        "tags": [
+            "laptop",
+            "business",
+            "premium",
+            "sleek"
+        ]
+    },
+    {
+        "id": "kb-q1pro",
+        "name": "Keychron Q1 Pro",
+        "price": 199,
+        "specs": {
+            "switch": "Keychron K Pro Red",
+            "wireless": "Yes",
+            "body": "Aluminum"
+        },
+        "repairability_score": 9,
+        "tags": [
+            "keyboard",
+            "enthusiast",
+            "wireless",
+            "custom"
+        ]
+    },
+    {
+        "id": "kb-wooting",
+        "name": "Wooting 60HE",
+        "price": 175,
+        "specs": {
+            "switch": "Analog Hall Effect",
+            "polling": "8000Hz",
+            "size": "60%"
+        },
+        "repairability_score": 8,
+        "tags": [
+            "keyboard",
+            "gaming",
+            "competitive",
+            "rapid-trigger"
+        ]
+    },
+    {
+        "id": "kb-g915",
+        "name": "Logitech G915 TKL",
+        "price": 229,
+        "specs": {
+            "switch": "Low Profile GL",
+            "wireless": "Lightspeed",
+            "battery": "40h"
+        },
+        "repairability_score": 3,
+        "tags": [
+            "keyboard",
+            "gaming",
+            "wireless",
+            "clean"
+        ]
+    },
+    {
+        "id": "kb-mxkeys",
+        "name": "Logitech MX Keys S",
+        "price": 109,
+        "specs": {
+            "type": "Membrane",
+            "wireless": "Bluetooth/Bolt",
+            "profile": "Low"
+        },
+        "repairability_score": 4,
+        "tags": [
+            "keyboard",
+            "productivity",
+            "office",
+            "silent"
+        ]
+    },
+    {
+        "id": "mouse-gprox",
+        "name": "Logitech G Pro X Superlight 2",
+        "price": 159,
+        "specs": {
+            "weight": "60g",
+            "polling": "2000Hz",
+            "sensor": "HERO 2"
+        },
+        "repairability_score": 5,
+        "tags": [
+            "mouse",
+            "gaming",
+            "competitive",
+            "fps"
+        ]
+    },
+    {
+        "id": "mouse-mxmaster",
+        "name": "Logitech MX Master 3S",
+        "price": 99,
+        "specs": {
+            "scroll": "MagSpeed",
+            "clicks": "Quiet",
+            "sensor": "8k DPI"
+        },
+        "repairability_score": 5,
+        "tags": [
+            "mouse",
+            "productivity",
+            "ergonomic",
+            "creative"
+        ]
+    },
+    {
+        "id": "head-sony",
+        "name": "Sony WH-1000XM5",
+        "price": 348,
+        "specs": {
+            "anc": "Industry Leading",
+            "battery": "30h",
+            "mic": "8 mics"
+        },
+        "repairability_score": 4,
+        "tags": [
+            "audio",
+            "headphones",
+            "commute",
+            "noise-cancelling"
+        ]
+    },
+    {
+        "id": "head-airpods-max",
+        "name": "Apple AirPods Max",
+        "price": 549,
+        "specs": {
+            "audio": "Spatial",
+            "build": "Aluminum/Mesh",
+            "anc": "Active"
+        },
+        "repairability_score": 2,
+        "tags": [
+            "audio",
+            "headphones",
+            "premium",
+            "apple-ecosystem"
+        ]
+    },
+    {
+        "id": "head-sennheiser",
+        "name": "Sennheiser HD 600",
+        "price": 299,
+        "specs": {
+            "type": "Open Back",
+            "impedance": "300 ohm",
+            "sound": "Neutral"
+        },
+        "repairability_score": 8,
+        "tags": [
+            "audio",
+            "audiophile",
+            "studio",
+            "wired"
+        ]
+    },
+    {
+        "id": "mon-alienware",
+        "name": "Alienware AW3423DWF QD-OLED",
+        "price": 899,
+        "specs": {
+            "res": "3440 x 1440",
+            "hz": "165Hz",
+            "panel": "QD-OLED"
+        },
+        "repairability_score": 5,
+        "tags": [
+            "monitor",
+            "gaming",
+            "ultrawide",
+            "hdr"
+        ]
+    },
+    {
+        "id": "mon-lg-c3",
+        "name": "LG C3 42-inch OLED",
+        "price": 899,
+        "specs": {
+            "res": "4K",
+            "hz": "120Hz",
+            "type": "TV/Monitor"
+        },
+        "repairability_score": 6,
+        "tags": [
+            "monitor",
+            "gaming",
+            "4k",
+            "console"
+        ]
+    },
+    {
+        "id": "mon-dell-u27",
+        "name": "Dell UltraSharp U2723QE",
+        "price": 549,
+        "specs": {
+            "res": "4K",
+            "panel": "IPS Black",
+            "color": "100% sRGB"
+        },
+        "repairability_score": 7,
+        "tags": [
+            "monitor",
+            "productivity",
+            "creative",
+            "color-accurate"
+        ]
+    },
+    {
+        "id": "con-ps5",
+        "name": "PlayStation 5 Slim",
+        "price": 499,
+        "specs": {
+            "storage": "1TB SSD",
+            "res": "4K 120Hz",
+            "drive": "Disc"
+        },
+        "repairability_score": 6,
+        "tags": [
+            "console",
+            "gaming",
+            "sony",
+            "mainstream"
+        ]
+    },
+    {
+        "id": "con-switch",
+        "name": "Nintendo Switch OLED",
+        "price": 349,
+        "specs": {
+            "screen": "7-inch OLED",
+            "mode": "Hybrid",
+            "joycon": "White"
+        },
+        "repairability_score": 5,
+        "tags": [
+            "console",
+            "gaming",
+            "portable",
+            "family"
+        ]
+    },
+    {
+        "id": "con-deck",
+        "name": "Steam Deck OLED 512GB",
+        "price": 549,
+        "specs": {
+            "screen": "OLED 90Hz",
+            "os": "SteamOS",
+            "repair": "High"
+        },
+        "repairability_score": 9,
+        "tags": [
+            "console",
+            "gaming",
+            "portable",
+            "pc-gaming",
+            "repairable"
+        ]
+    },
+    {
+        "id": "vr-quest3",
+        "name": "Meta Quest 3 128GB",
+        "price": 499,
+        "specs": {
+            "res": "2064x2208",
+            "passthrough": "Full Color",
+            "cpu": "XR2 Gen 2"
+        },
+        "repairability_score": 3,
+        "tags": [
+            "vr",
+            "gaming",
+            "mixed-reality",
+            "wireless"
+        ]
+    },
+    {
+        "id": "acc-stream-deck",
+        "name": "Elgato Stream Deck MK.2",
+        "price": 149,
+        "specs": {
+            "keys": "15 LCD",
+            "conn": "USB-C",
+            "custom": "Full"
+        },
+        "repairability_score": 6,
+        "tags": [
+            "accessory",
+            "streaming",
+            "productivity"
+        ]
+    }
+]
