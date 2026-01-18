@@ -46,19 +46,19 @@ export default function OnboardingPage() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-black via-gray-900 to-slate-900 text-white">
+        <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background text-foreground transition-colors duration-500">
             <div className="w-full max-w-lg">
                 <div className="mb-8 text-center space-y-2">
-                    <h1 className="text-4xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                    <h1 className="text-4xl font-bold tracking-tighter text-primary">
                         Setup ID
                     </h1>
-                    <p className="text-gray-400">Construct your Identity Profile for authorized shopping.</p>
+                    <p className="text-muted-foreground">Construct your Identity Profile for authorized shopping.</p>
                 </div>
 
-                <Card className="glass-panel border-white/10 bg-black/40 backdrop-blur-md">
+                <Card className="industrial-panel bg-card/50 backdrop-blur-md">
                     <CardHeader>
                         <CardTitle>Step {step} of 3</CardTitle>
-                        <CardDescription className="text-gray-400">
+                        <CardDescription>
                             {step === 1 && "Choose your primary role."}
                             {step === 2 && "Set your budget constraint."}
                             {step === 3 && "Define your core values."}
@@ -72,7 +72,7 @@ export default function OnboardingPage() {
                                         <button
                                             key={r.id}
                                             onClick={() => setRole(r.id)}
-                                            className={`flex flex-col items-center gap-3 p-4 rounded-xl border transition-all duration-300 ${role === r.id ? 'bg-blue-600/20 border-blue-500 text-white shadow-[0_0_20px_rgba(59,130,246,0.5)]' : 'bg-white/5 border-transparent text-gray-400 hover:bg-white/10'}`}
+                                            className={`flex flex-col items-center gap-3 p-4 rounded-xl border transition-all duration-300 ${role === r.id ? 'bg-primary/10 border-primary text-foreground shadow-[0_0_20px_rgba(var(--primary),0.2)]' : 'bg-muted/50 border-border text-muted-foreground hover:bg-muted'}`}
                                         >
                                             {r.icon}
                                             <span className="font-medium">{r.label}</span>
@@ -81,15 +81,15 @@ export default function OnboardingPage() {
                                 </div>
                                 <div className="relative">
                                     <div className="absolute inset-0 flex items-center">
-                                        <span className="w-full border-t border-white/10" />
+                                        <span className="w-full border-t border-border" />
                                     </div>
                                     <div className="relative flex justify-center text-xs uppercase">
-                                        <span className="bg-black px-2 text-gray-500">Or define your own</span>
+                                        <span className="bg-card px-2 text-muted-foreground">Or define your own</span>
                                     </div>
                                 </div>
                                 <Input
                                     placeholder="e.g. Data Scientist, competitive FPS player..."
-                                    className="bg-white/5 border-white/10 focus-visible:ring-blue-500 text-center"
+                                    className="bg-background border-border focus-visible:ring-primary text-center"
                                     value={!roles.find(r => r.id === role) ? role : ""}
                                     onChange={(e) => setRole(e.target.value)}
                                 />
@@ -99,7 +99,7 @@ export default function OnboardingPage() {
                         {step === 2 && (
                             <div className="space-y-8 py-4">
                                 <div className="text-center">
-                                    <span className="text-5xl font-bold font-mono text-green-400">${budget[0]}</span>
+                                    <span className="text-5xl font-bold font-mono text-primary">${budget[0]}</span>
                                 </div>
                                 <Slider
                                     defaultValue={[1000]}
@@ -110,7 +110,7 @@ export default function OnboardingPage() {
                                     onValueChange={setBudget}
                                     className="py-4"
                                 />
-                                <p className="text-center text-sm text-gray-500">Move slider to adjust</p>
+                                <p className="text-center text-sm text-muted-foreground">Move slider to adjust</p>
                             </div>
                         )}
 
@@ -121,7 +121,7 @@ export default function OnboardingPage() {
                                         <button
                                             key={v.id}
                                             onClick={() => toggleValue(v.id)}
-                                            className={`flex flex-col items-center justify-center gap-2 p-3 text-center rounded-xl border transition-all ${values.includes(v.id) ? 'bg-purple-600/20 border-purple-500 text-purple-300 shadow-[0_0_15px_rgba(147,51,234,0.3)]' : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10'}`}
+                                            className={`flex flex-col items-center justify-center gap-2 p-3 text-center rounded-xl border transition-all ${values.includes(v.id) ? 'bg-primary/10 border-primary text-primary shadow-[0_0_15px_rgba(var(--primary),0.2)]' : 'bg-muted/50 border-border text-muted-foreground hover:bg-muted'}`}
                                         >
                                             {v.icon}
                                             <span className="text-xs font-bold uppercase tracking-wide">{v.label}</span>
@@ -131,7 +131,7 @@ export default function OnboardingPage() {
                                 <div className="pt-2">
                                     <Input
                                         placeholder="Add a custom value (e.g. 'Linux Support')..."
-                                        className="bg-black/50 border-white/10 text-center focus-visible:ring-purple-500"
+                                        className="bg-background border-border text-center focus-visible:ring-primary"
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter') {
                                                 const val = e.currentTarget.value.trim()
@@ -142,13 +142,13 @@ export default function OnboardingPage() {
                                             }
                                         }}
                                     />
-                                    <p className="text-[10px] text-gray-500 text-center mt-2">Press Enter to add</p>
+                                    <p className="text-[10px] text-muted-foreground text-center mt-2">Press Enter to add</p>
                                 </div>
                                 <div className="flex flex-wrap gap-2 justify-center min-h-[30px]">
                                     {values.map(v => !userValues.find(uv => uv.id === v) && (
-                                        <Badge key={v} variant="secondary" className="bg-purple-500/10 text-purple-300 border-purple-500/30 flex gap-1 items-center">
+                                        <Badge key={v} variant="secondary" className="bg-primary/10 text-primary border-primary/30 flex gap-1 items-center">
                                             {v}
-                                            <button onClick={() => toggleValue(v)} className="hover:text-white ml-1">×</button>
+                                            <button onClick={() => toggleValue(v)} className="hover:text-foreground ml-1">×</button>
                                         </Badge>
                                     ))}
                                 </div>
@@ -156,16 +156,16 @@ export default function OnboardingPage() {
                         )}
                     </CardContent>
                     <CardFooter className="flex justify-between">
-                        <Button variant="ghost" onClick={() => setStep(s => Math.max(1, s - 1))} disabled={step === 1} className="text-gray-400 hover:text-white">
+                        <Button variant="ghost" onClick={() => setStep(s => Math.max(1, s - 1))} disabled={step === 1}>
                             Back
                         </Button>
 
                         {step < 3 ? (
-                            <Button onClick={() => setStep(s => s + 1)} disabled={step === 1 && !role} className="bg-blue-600 hover:bg-blue-700 text-white">
+                            <Button onClick={() => setStep(s => s + 1)} disabled={step === 1 && !role}>
                                 Next <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                         ) : (
-                            <Button onClick={handleFinish} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 text-white w-full sm:w-auto">
+                            <Button onClick={handleFinish} className="w-full sm:w-auto">
                                 Initialize Dashboard
                             </Button>
                         )}

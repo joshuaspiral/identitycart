@@ -1,39 +1,36 @@
 import Link from "next/link"
-import { ShieldCheck, UserCircle } from "lucide-react"
+import { UserCircle, ScanSearch, ShieldCheck } from "lucide-react"
+
+import { ShoppingCartComponent } from "@/components/shopping-cart"
 
 export function Navbar({ identity }: { identity?: { role: string; roleIcon?: string } }) {
     return (
-        <nav className="w-full glass-panel border-b border-white/10 px-6 py-4 flex justify-between items-center sticky top-0 z-50 bg-black/50 backdrop-blur-xl">
-            <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity">
-                <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg p-1.5 shadow-lg shadow-blue-500/20">
-                    <ShieldCheck className="h-5 w-5 text-white" />
+        <nav className="h-14 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+            <div className="container flex h-14 max-w-screen-2xl items-center justify-between px-4">
+                <div className="flex items-center gap-2 font-bold text-lg tracking-tight">
+                    <div className="flex items-center justify-center p-1.5 rounded-sm bg-primary text-primary-foreground">
+                        <ScanSearch className="h-4 w-4" />
+                    </div>
+                    <span className="hidden sm:inline-block">IdentityCart</span>
                 </div>
-                <div className="flex flex-col leading-none">
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 text-lg">
-                        Identity Cart
-                    </span>
-                    <span className="text-[10px] text-gray-500 font-normal tracking-widest uppercase">
-                        Intelligence Platform
-                    </span>
-                </div>
-            </Link>
 
-            <div className="flex items-center gap-6">
-                <Link href="/help" className="hidden md:block text-sm text-muted-foreground hover:text-white transition-colors">
-                    Help
-                </Link>
-                <Link href="/profile" className="hidden md:block text-sm text-muted-foreground hover:text-white transition-colors">
-                    Profile
-                </Link>
-                <Link href="/security" className="hidden md:block text-sm text-muted-foreground hover:text-white transition-colors">
-                    Security Status
-                </Link>
-                {identity && (
-                    <Link href="/profile" className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
-                        <UserCircle className="h-4 w-4 text-blue-400" />
-                        <span className="text-xs font-mono text-gray-300 uppercase">{identity.role}</span>
+                <div className="flex items-center gap-4">
+                    <Link href="/help" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                        Help
                     </Link>
-                )}
+                    <Link href="/profile" className="hidden md:block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                        Profile
+                    </Link>
+                    {identity && (
+                        <Link href="/profile" className="flex items-center gap-2 pl-4 border-l border-border">
+                            <span className="text-xs text-muted-foreground text-right hidden lg:block">
+                                <div className="font-bold text-foreground">OPERATOR</div>
+                                <div className="uppercase tracking-wider">{identity.role}</div>
+                            </span>
+                            <UserCircle className="h-8 w-8 text-muted-foreground hover:text-foreground transition-colors" />
+                        </Link>
+                    )}
+                </div>
             </div>
         </nav>
     )

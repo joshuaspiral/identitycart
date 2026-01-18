@@ -43,9 +43,10 @@ export function AgentLog({ logs }: AgentLogProps) {
         }
     }, [logs])
 
-    if (logs.length === 0) {
+    // Safety check for undefined/null logs
+    if (!logs || !Array.isArray(logs) || logs.length === 0) {
         return (
-            <div className="glass-panel h-full rounded-xl p-6 flex flex-col items-center justify-center text-muted-foreground opacity-50">
+            <div className="industrial-panel h-full rounded-xl p-6 flex flex-col items-center justify-center text-muted-foreground opacity-50">
                 <ScanSearch className="h-12 w-12 mb-2" />
                 <p>Waiting for mission...</p>
             </div>
@@ -53,10 +54,10 @@ export function AgentLog({ logs }: AgentLogProps) {
     }
 
     return (
-        <div className="glass-panel h-full rounded-xl flex flex-col overflow-hidden">
-            <div className="p-4 border-b border-white/10 bg-black/20">
+        <div className="industrial-panel h-full rounded-xl flex flex-col overflow-hidden">
+            <div className="p-4 border-b border-border bg-muted/30">
                 <h3 className="font-semibold flex items-center gap-2">
-                    <ScanSearch className="h-5 w-5 text-blue-400" />
+                    <ScanSearch className="h-5 w-5 text-primary" />
                     Agent Activity
                 </h3>
             </div>
@@ -66,11 +67,11 @@ export function AgentLog({ logs }: AgentLogProps) {
                         <div key={i} className="flex gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
                             <div
                                 className={cn(
-                                    "h-8 w-8 rounded-full flex items-center justify-center shrink-0 border border-white/10 shadow-sm",
-                                    log.color === "blue" && "bg-blue-500/20 text-blue-400",
-                                    log.color === "red" && "bg-red-500/20 text-red-400",
-                                    log.color === "green" && "bg-green-500/20 text-green-400",
-                                    log.color === "purple" && "bg-purple-500/20 text-purple-400"
+                                    "h-8 w-8 rounded-full flex items-center justify-center shrink-0 border border-border shadow-sm",
+                                    log.color === "blue" && "bg-blue-500/20 text-blue-500 dark:text-blue-400",
+                                    log.color === "red" && "bg-red-500/20 text-red-500 dark:text-red-400",
+                                    log.color === "green" && "bg-green-500/20 text-green-500 dark:text-green-400",
+                                    log.color === "purple" && "bg-purple-500/20 text-purple-500 dark:text-purple-400"
                                 )}
                             >
                                 <AgentIcon agent={log.agent} />
@@ -79,16 +80,16 @@ export function AgentLog({ logs }: AgentLogProps) {
                                 <div className="flex items-center gap-2">
                                     <span className={cn(
                                         "text-xs font-bold uppercase tracking-wider",
-                                        log.color === "blue" && "text-blue-400",
-                                        log.color === "red" && "text-red-400",
-                                        log.color === "green" && "text-green-400",
-                                        log.color === "purple" && "text-purple-400"
+                                        log.color === "blue" && "text-blue-500 dark:text-blue-400",
+                                        log.color === "red" && "text-red-500 dark:text-red-400",
+                                        log.color === "green" && "text-green-500 dark:text-green-400",
+                                        log.color === "purple" && "text-purple-500 dark:text-purple-400"
                                     )}>
                                         {log.agent}
                                     </span>
                                     <span className="text-[10px] text-muted-foreground">{new Date().toLocaleTimeString()}</span>
                                 </div>
-                                <p className="text-sm text-gray-300 leading-relaxed">{log.message}</p>
+                                <p className="text-sm text-foreground/80 leading-relaxed">{log.message}</p>
                             </div>
                         </div>
                     ))}

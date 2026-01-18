@@ -1,96 +1,61 @@
-#IdentityCart
+# IdentityCart Intelligence Platform 🛡️🛒
 
-#Authors
-- Ali
-- Joshua
-- Sean
+**Identity-First Commerce for the Modern Web.**
 
-## TL;DR
-**IdentityCart** is an AI-powered ecommerce assistant that helps users make confident purchasing decisions based on *who they are*, not just specs. By combining secure passkey authentication, identity-based personalization, and a multi-agent AI tribunal built with **LangGraph**, IdentityCart debates products on your behalf and explains why a recommendation fits your unique profile.
+IdentityCart is a Next.js + FastAPI powered agentic commerce platform that rethinks how we shop online. Instead of browsing endless catalogs, users define their **Identity Profile** (Gamers, Creators, Privacy Advocates) and let a swarm of AI agents curate a marketplace specifically for them.
 
-> **Think:** Personal finance meets AI agents meets trust-first shopping.
+![IdentityCart Dashboard](https://placehold.co/1200x600/000000/FFF?text=IdentityCart+Dashboard&font=roboto)
 
----
+## 🚀 Features
 
-## Inspiration
-We’ve all experienced the same problem: **50 browser tabs open**, two products that look nearly identical, and a $500 price difference we can’t rationalize.
+### for the Hackathon Submission:
+  - Visualizes the multi-agent decision process in real-time.
 
-The modern shopping experience is broken because it ignores **identity**. It treats everyone the same—even though a student, gamer, creator, or budget-conscious buyer should never receive identical advice.
+## 🛠️ Tech Stack
 
-We realized that identity isn’t just a name or login—it’s your needs, values, constraints, and long-term goals. So instead of asking users to compare products manually, we asked a different question:
+- **Frontend**: Next.js 14, Tailwind CSS, Shadcn/UI, Lucide Icons, Framer Motion.
+- **Backend**: FastAPI, LangGraph (Multi-Agent Orchestration), LangChain.
+- **AI**: OpenAI GPT-4o-mini (via OpenRouter).
+- **Data**: Static "Golden Set" of 50+ high-fidelity tech products (Q1 2026 pricing).
 
-**What if products had to prove they deserved your identity?**
+## 🏃‍♂️ Getting Started
 
-That idea became IdentityCart.
+### Prerequisites
+- Node.js 18+
+- Python 3.10+
+- `OPENROUTER_API_KEY` environment variable.
 
----
+### Installation
 
-## What it does
-IdentityCart is an AI-powered ecommerce assistant that helps users make confident purchasing decisions based on who they are, not just technical specs.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/joshuaspiral/identitycart.git
+   cd identitycart
+   ```
 
-When a user searches for a product (e.g., "mechanical keyboard"), IdentityCart launches a **Tribunal of AI Agents** that debate the options on the user’s behalf. Each agent protects a different part of the user’s identity:
+2. **Frontend Setup**
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
 
-- **Scout**: Finds and structures real product data via real-time search.
-- **Critic**: Evaluates price-to-performance and value (The "Grumpy" guardian of your wallet).
-- **Mentor**: Translates technical jargon into plain English and checks cognitive load.
-- **Guardian**: Evaluates sustainability, repairability, and long-term impact.
+3. **Backend Setup**
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   export OPENROUTER_API_KEY=your_key_here
+   uvicorn app.main:app --reload
+   ```
 
-Instead of returning a list of links, IdentityCart delivers:
-1.  A final collaborative recommendation.
-2.  A transparent communication log (The "Live Feed").
-3.  A clear explanation of *why* this product fits the user’s identity.
+4. **Launch**
+   Open [http://localhost:3000](http://localhost:3000) to begin authorization.
 
-Users don’t just see *what* to buy—they understand *why*.
+## 👥 The Team
 
----
-
-## How we built it
-We built a modern, agentic web application using **Next.js** and **Python**:
-
-### **Frontend**
-- **Next.js 14**: For a high-performance, server-rendered React application.
-- **Tailwind CSS & Shadcn/UI**: To create a clean, "sharp industrial" interface that visualizes the AI agents debating in real time.
-- **Glassmorphism**: Used to give the "Tribunal" a modern, transparent feel.
-
-### **Backend**
-- **FastAPI**: Serving the agentic workflow.
-- **LangGraph**: The core orchestration engine. We designed a stateful "Agent Tribunal" where a shared `UserIdentity` and `ProductContext` are passed between specialized agents.
-- **SERP API**: Powers the "Scout" agent, allowing real-time retrieval of live product listings, pricing signals, and metadata from global retailers.
-
-### **Multi-Agent Orchestration**
-Instead of a single LLM response, we built a **graph**.
-1.  **Orchestration**: A "Supervisor" node manages the hand-offs.
-2.  **Debate**: The Critic and Mentor review the Scout's findings before presenting them to the user.
-3.  **State**: The user's Identity Profile (Budget: $2000, Role: Student) persists and influences every decision.
+- **Agent Scout**: Discovery
+- **Agent Critic**: Value Analysis
+- **Agent Guardian**: Ethics & Safety
+- **Agent Mentor**: User Liaison
 
 ---
-
-## Challenges we ran into
-- **Agent Orchestration**: Getting four AI agents to actually "argue" productively was difficult. Initially, they would all agree too easily ("Yes, buy this!"). We had to engage in rigorous system prompt engineering to give The Critic a cynical personality and The Mentor a patient one.
-- **State Management in LangGraph**: Passing the user's "Identity Profile" cleanly through every node of the graph without hallucinating data was a complex engineering challenge.
-- **Streaming Responses**: We wanted the user to see the "Agent Tribunal" thinking in real-time. Connecting the customized LangGraph stream to the React frontend required careful handling of Server-Sent Events (SSE).
-- **Search Reliability**: Moving from static mock data to live SERP-powered queries introduced challenges around inconsistent result formats (e.g. "Galaxy Book" being categorized as "Phone"), requiring robust regex extraction and classification logic.
-
----
-
-## Accomplishments that we're proud of
-- **Transparent Communication Log**: We didn't hide the AI logic. We successfully visualized the LangGraph execution in the UI, fulfilling the challenge requirement to show a "transparent, human-readable communication log."
-- **The "Identity" Pivot**: We moved beyond a generic "Shopping Bot" to something that feels personal. Seeing the agents reject a product because *"it doesn't fit the Student Identity"* feels genuinely intelligent.
-- **Real Agent Debate**: Watching the **Critic** flag a product as "Overpriced" while the **Mentor** defends it for its "Usability" creates a genuine sense of a balanced decision-making process.
-
----
-
-## What we learned
-- **The Power of Agency**: AI is significantly more powerful when you break it into specialized roles. A "Generalist" model is okay, but a specialized "Critic" model interacting with a "Scout" model produces far superior insights.
-- **Graph Theory in AI**: Learning LangGraph opened our eyes to how complex, stateful workflows can be built with LLMs.
-- **UI Quality Drives Trust**: Even strong AI feels unreliable without a clean, intuitive interface. Visual clarity directly affects user confidence.
-- **Progressive Disclosure**: Presenting insights step-by-step prevents cognitive overload and keeps the experience approachable.
-
----
-
-## What's next for IdentityCart
-- **Real-Time Retail APIs**: Connecting directly to BestBuy/Amazon Product APIs for cleaner data.
-- **Browser Extension**: Bringing the "Agent Tribunal" with you to any URL. Imagine visiting an Amazon product page and having The Critic pop up to tell you it's overpriced.
-- **Collaborative Carts**: Allowing teams or families to merge their "Identity Profiles" to find products that work for everyone (e.g., a TV that fits the gamer's needs and the budget's constraints).
-
-

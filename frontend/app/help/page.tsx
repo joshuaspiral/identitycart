@@ -7,79 +7,79 @@ import { Navbar } from "@/components/navbar"
 
 export default function HelpPage() {
     return (
-        <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30">
+        <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
             <Navbar />
 
             <div className="container mx-auto p-6 max-w-4xl space-y-8">
                 <div className="text-center space-y-4">
-                    <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                    <h1 className="text-4xl font-bold text-primary">
                         Mission Control Guide
                     </h1>
-                    <p className="text-gray-400">Understand how the IdentityCart Intelligence Platform serves you.</p>
+                    <p className="text-muted-foreground">Understand how the IdentityCart Intelligence Platform serves you.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Card className="industrial-panel bg-zinc-950">
+                <div className="space-y-6">
+                    <Card className="industrial-panel">
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2 text-white">
-                                <Bot className="h-5 w-5 text-blue-500" /> Agent Swarm
+                            <CardTitle className="flex items-center gap-2 text-foreground">
+                                <Bot className="h-5 w-5 text-primary" /> Agent Swarm
                             </CardTitle>
-                            <CardDescription className="text-gray-400">Meet the AI team working for you.</CardDescription>
+                            <CardDescription className="text-muted-foreground">Meet the AI team working for you.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
-                            <div className="flex gap-4 items-start">
-                                <div className="h-10 w-10 border border-blue-500/20 bg-blue-500/5 flex items-center justify-center shrink-0">
-                                    <Search className="h-5 w-5 text-blue-400" />
+                            <div className="flex gap-4">
+                                <div className="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/50">
+                                    <Search className="h-5 w-5 text-blue-500" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-sm text-gray-100 uppercase tracking-wider">Scout</h4>
-                                    <p className="text-xs text-gray-500 mt-1 leading-relaxed">Scours the database to find products relevant to your query and budget.</p>
+                                    <h3 className="font-bold text-foreground">Scout Agent</h3>
+                                    <p className="text-sm text-muted-foreground">Scours global databases to find products matching your identity.</p>
                                 </div>
                             </div>
-                            <div className="flex gap-4 items-start">
-                                <div className="h-10 w-10 border border-red-500/20 bg-red-500/5 flex items-center justify-center shrink-0">
-                                    <ShieldCheck className="h-5 w-5 text-red-400" />
+                            <div className="flex gap-4">
+                                <div className="h-10 w-10 rounded-full bg-red-500/20 flex items-center justify-center border border-red-500/50">
+                                    <ShieldCheck className="h-5 w-5 text-red-500" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-sm text-gray-100 uppercase tracking-wider">Critic & Guardian</h4>
-                                    <p className="text-xs text-gray-500 mt-1 leading-relaxed">Checks for value, repairability, and eco-friendliness. Flags bad deals.</p>
+                                    <h3 className="font-bold text-foreground">Critic Agent</h3>
+                                    <p className="text-sm text-muted-foreground">Analyzes pricing trends and build quality to prevent bad buys.</p>
                                 </div>
                             </div>
-                            <div className="flex gap-4 items-start">
-                                <div className="h-10 w-10 border border-purple-500/20 bg-purple-500/5 flex items-center justify-center shrink-0">
-                                    <FileText className="h-5 w-5 text-purple-400" />
+                            <div className="flex gap-4">
+                                <div className="h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                                    <ShieldCheck className="h-5 w-5 text-green-500" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-sm text-gray-100 uppercase tracking-wider">Mentor</h4>
-                                    <p className="text-xs text-gray-500 mt-1 leading-relaxed">Synthesizes all data into a personalized recommendation for you.</p>
+                                    <h3 className="font-bold text-foreground">Guardian Agent</h3>
+                                    <p className="text-sm text-muted-foreground">Ensures products align with your ethical values (Repairability, Privacy).</p>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card className="industrial-panel bg-zinc-950">
+                    <Card className="industrial-panel">
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2 text-white">
-                                <HelpCircle className="h-5 w-5 text-green-500" /> FAQ
+                            <CardTitle className="flex items-center gap-2 text-foreground">
+                                <HelpCircle className="h-5 w-5 text-primary" /> FAQ
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <Accordion type="single" collapsible className="w-full">
-                                <AccordionItem value="item-1" className="border-white/5">
-                                    <AccordionTrigger className="hover:text-blue-400 text-gray-200">How is my data used?</AccordionTrigger>
-                                    <AccordionContent className="text-gray-400 text-sm">
-                                        Your Identity Profile is stored locally on your device. It is only sent to the agents to tailor recommendations for the current session.
+                                <AccordionItem value="item-1" className="border-border">
+                                    <AccordionTrigger className="hover:text-primary text-muted-foreground">How is my data used?</AccordionTrigger>
+                                    <AccordionContent className="text-muted-foreground">
+                                        Your identity profile is stored locally in your browser. Agents only use it during active search sessions to filter results.
                                     </AccordionContent>
                                 </AccordionItem>
-                                <AccordionItem value="item-2" className="border-white/5">
-                                    <AccordionTrigger className="hover:text-blue-400 text-gray-200">Are the prices real?</AccordionTrigger>
-                                    <AccordionContent className="text-gray-400 text-sm">
-                                        Yes, prices are updated to reflect estimated market averages for Q1 2026.
+                                <AccordionItem value="item-2" className="border-border">
+                                    <AccordionTrigger className="hover:text-primary text-muted-foreground">Are these real products?</AccordionTrigger>
+                                    <AccordionContent className="text-muted-foreground">
+                                        Currently, the system simulates a market based on real-world tech specifications from our database.
                                     </AccordionContent>
                                 </AccordionItem>
-                                <AccordionItem value="item-3" className="border-white/5">
-                                    <AccordionTrigger className="hover:text-blue-400 text-gray-200">What is Repairability?</AccordionTrigger>
-                                    <AccordionContent className="text-gray-400 text-sm">
+                                <AccordionItem value="item-3" className="border-border">
+                                    <AccordionTrigger className="hover:text-primary text-muted-foreground">What is Repairability?</AccordionTrigger>
+                                    <AccordionContent className="text-muted-foreground">
                                         We score products 1-10 based on how easy they are to fix. Higher is better for you and the planet.
                                     </AccordionContent>
                                 </AccordionItem>
