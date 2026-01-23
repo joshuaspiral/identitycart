@@ -12,19 +12,16 @@ class AgentState(TypedDict):
     user_identity: Dict[str, Any]
     products: List[Dict[str, Any]]
     logs: Annotated[List[Dict[str, Any]], operator.add]
-    # New: Store analysis for each product
     product_analysis: Dict[str, Any] 
 
-# --- Load Data (Fallback) ---
-# Keep static products as fallback when API fails
+# Static product fallback data
 try:
     with open("data/products.json", "r") as f:
         PRODUCT_DB = json.load(f)
 except FileNotFoundError:
     PRODUCT_DB = []
 
-# --- LLM Setup ---
-# Using OpenRouter
+# LLM setup
 llm = ChatOpenAI(
     model="openai/gpt-4o-mini", 
     temperature=0.7,
@@ -32,13 +29,10 @@ llm = ChatOpenAI(
     api_key=os.getenv("OPENROUTER_API_KEY")
 )
 
-# --- Node Functions ---
+
 
 def scout_node(state: AgentState):
-    """
-    The Scout: Finds products matching the query.
-    ONLY REAL-TIME DATA - NO FALLBACKS!
-    """
+    """Find and filter products based on query and budget"""
     query_msg = state["messages"][0].content.lower()
     user_identity = state["user_identity"]
     # Robust budget handling
@@ -62,9 +56,7 @@ def scout_node(state: AgentState):
     
     logs = []
     
-    # 1. INTELLIGENT QUERY REFINEMENT
-    optimized_query = query_msg
-    # Only adding "premium" if budget is substantial (> $3000) AND context is clearly tech
+    # Add premium keywords for high-budget tech searches
     tech_keywords = ["laptop", "computer", "phone", "monitor", "tv", "camera", "headphone", "watch", "tablet"]
     
     if budget >= 3000 and "cheap" not in query_msg and "budget" not in query_msg:
@@ -82,7 +74,6 @@ def scout_node(state: AgentState):
     # if optimized_query != query_msg:
     #     logs.append(...) 
 
-    # ONLY use real-time product search - no fallbacks
     from app.services.product_search import search_products
     
     print(f"🔍 Scout: Searching real-time for '{optimized_query}'")
@@ -106,22 +97,18 @@ def scout_node(state: AgentState):
         "message": f"Scraped {len(all_products)} raw candidates from global retailers..."
     })
     
-    # 2. INTELLIGENT FILTERING
-    # Filter by budget MAX (hard limit) and MIN (quality control)
-    # Strict Cap: 1.2x. Relaxed Cap: 1.5x (absolute max).
+    # Filter by budget with strict and relaxed caps
     strict_cap = budget * 1.2
     hard_cap = budget * 1.5 
     min_price = budget * 0.15 if budget > 1000 else 0 
     
-    found_products = []
-    # Pass 1: Strict Filtering
+    # Strict filtering pass
     for p in all_products:
         price = p.get("price", 0)
         if min_price <= price <= strict_cap:
             found_products.append(p)
             
-    if not found_products:
-        # Pass 2: Relaxed Filtering (up to 1.5x)
+        # Relaxed filtering if needed
         logs.append({
             "agent": "Scout",
             "color": "blue",
@@ -129,11 +116,9 @@ def scout_node(state: AgentState):
         })
         for p in all_products:
             price = p.get("price", 0)
-            if price <= hard_cap: # STRICT HARD CAP
+            if price <= hard_cap:
                 found_products.append(p)
     
-    # Pass 3: If still nothing, do NOT return expensive items. Return nothing.
-    # User trust is more important than filling empty space.
     
     found_products = found_products[:8]
     
@@ -150,21 +135,14 @@ def scout_node(state: AgentState):
             "message": f"Critical: No products found under ${hard_cap}. Please increase budget or specificty."
         })
 
-    # Extract identity context for the prompt
-    interests = user_identity.get("interests", [])
-    values = user_identity.get("values", [])
-    use_case = user_identity.get("use_case", "")
-        
+    
     return {
         "products": found_products,
         "logs": logs
     }
 
 def critic_node(state: AgentState):
-    """
-    The Critic: Ruthless analysis of Price-to-Performance ratio.
-    Adds Value Score, Hidden Cost Risk, and Deal Timing.
-    """
+    """Analyze price-to-performance and value"""
     products = state["products"]
     identity = state["user_identity"]
     
@@ -203,8 +181,7 @@ def critic_node(state: AgentState):
         if p_id not in analysis:
             analysis[p_id] = {}
             
-        # 1. Identity-Adjusted Value Score (0-100)
-        # Simple heuristic: Lower price relative to budget = higher score, penalized by repairability
+        # Calculate value score
         price_ratio = p["price"] / (budget * 1.2)
         base_score = max(0, 100 - (price_ratio * 80)) # cheaper is better base
         repaired_score = (base_score + (p["repairability_score"] * 2)) 
@@ -212,7 +189,7 @@ def critic_node(state: AgentState):
         
         analysis[p_id]["value_score"] = final_value_score
         
-        # 2. Hidden Cost Risk (Heuristic based on brand)
+        # Estimate hidden costs
         name = p["name"].lower()
         hidden_cost = "Low"
         if any(b in name for b in ["apple", "macbook", "printer", "subscription"]):
@@ -222,9 +199,7 @@ def critic_node(state: AgentState):
             
         analysis[p_id]["hidden_cost_risk"] = hidden_cost
         
-        # 3. Deal Timing Confidence (Simulated)
-        # In a real app, this would use price history API.
-        # Here we simulate based on "M3" vs "M1" keywords or generic
+        # Deal timing heuristic
         deal_timing = "Buy Now"
         if "renewed" in name or "refurbished" in name:
              deal_timing = "Great Price"
@@ -266,10 +241,7 @@ def critic_node(state: AgentState):
     }
 
 def guardian_node(state: AgentState):
-    """
-    The Guardian: Checks "Repairability" and "Eco-Friendly" tags. Adds warnings.
-    Now adds Brand Behavior and upgrade longevity.
-    """
+    """Check repairability and sustainability"""
     products = state["products"]
     analysis = state.get("product_analysis", {})
     
@@ -286,7 +258,7 @@ def guardian_node(state: AgentState):
         p_id = p.get("id")
         if p_id not in analysis: analysis[p_id] = {}
         
-        # 1. Repairability Confidence (already have score, add label)
+        # Repairability confidence
         score = p["repairability_score"]
         confidence = "Low"
         if score >= 7: confidence = "High"
@@ -294,8 +266,7 @@ def guardian_node(state: AgentState):
         
         analysis[p_id]["repairability_confidence"] = confidence
         
-        # 2. Longevity Score (Estimated years)
-        # Framework/Desktop = 5+ years. Laptop = 3-5. Phone = 2-4.
+        # Estimate longevity
         longevity = "3-4 Years"
         if score >= 8: longevity = "5+ Years (Upgradeable)"
         elif score <= 3: longevity = "2-3 Years (Disposable)"
@@ -326,18 +297,14 @@ def guardian_node(state: AgentState):
     return {"product_analysis": analysis, "logs": logs}
 
 def mentor_node(state: AgentState):
-    """
-    The Mentor: Explains technical specs in simple terms.
-    Constructs the final response.
-    """
+    """Explain specs and generate final recommendation"""
     products = state["products"]
     identity = state["user_identity"]
     query_msg = state["messages"][-1].content
     analysis = state.get("product_analysis", {})
     role = identity.get("role", "User").lower()
     
-    # 1. Cognitive Load Score (How hard to use?)
-    # Heuristic: Linux/Dev tools = High (unless user is dev). Mac/Console = Low.
+    # Calculate cognitive load for each product
     for p in products:
         p_id = p.get("id")
         if p_id not in analysis:
@@ -352,7 +319,7 @@ def mentor_node(state: AgentState):
             
         analysis[p_id]["cognitive_load"] = load
     
-    # Merge analysis into products so frontend gets them
+    # Merge analysis data into products
     for p in products:
         p_id = p.get("id")
         if p_id in analysis:
@@ -397,7 +364,7 @@ def mentor_node(state: AgentState):
         "logs": [{"agent": "Mentor", "color": "purple", "message": f"Synthesizing final advice based on {len(products)} verified options..."}]
     }
 
-# --- Graph Contruction ---
+# Graph construction
 workflow = StateGraph(AgentState)
 
 workflow.add_node("scout", scout_node)

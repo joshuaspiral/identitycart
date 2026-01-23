@@ -1,7 +1,4 @@
-"""
-LLM-Powered Conversational Onboarding Agent
-Uses GPT to have natural conversations and extract structured identity data
-"""
+"""Conversational onboarding agent for building user profiles"""
 
 from typing import List, Dict, Any
 from pydantic import BaseModel
@@ -10,7 +7,7 @@ import os
 import json
 import re
 
-# Load LLM
+
 api_key = os.getenv("OPENROUTER_API_KEY", "placeholder")
 llm = ChatOpenAI(
     model="openai/gpt-4o-mini",
@@ -30,9 +27,8 @@ class OnboardingChatResponse(BaseModel):
     partial_data: Dict[str, Any] = None  # What we've learned so far
 
 async def extract_identity_from_conversation(messages: List[Dict[str, str]]) -> Dict[str, Any]:
-    """Use LLM to extract structured identity from conversation"""
+    """Extract structured identity profile from conversation history"""
     
-    # CRITICAL FIX: Include Assistant messages so we know what questions were asked
     conversation_text = "\n".join([
         f"{msg['role'].upper()}: {msg['content']}" 
         for msg in messages
@@ -82,14 +78,14 @@ Rules:
         }
 
 async def generate_next_question(messages: List[Dict[str, str]], extracted_data: Dict[str, Any]) -> str:
-    """Use LLM to generate contextual follow-up question"""
+    """Generate contextual follow-up question based on what's missing"""
     
     conversation_text = "\n".join([
         f"{msg['role'].upper()}: {msg['content']}" 
         for msg in messages[-4:]  # Last 2 exchanges
     ])
     
-    # Check what we still need
+    
     needs = []
     if not extracted_data.get("use_case") or extracted_data["use_case"] == "general shopping":
         needs.append("what they're looking for")
@@ -100,8 +96,7 @@ async def generate_next_question(messages: List[Dict[str, str]], extracted_data:
     if not extracted_data.get("budget_preferred") or extracted_data["budget_preferred"] == 0:
         needs.append("their budget")
     
-    if not needs:
-        return None  # We have everything
+        return None
     
     prompt = f"""
 You are a friendly shopping assistant having a conversation to learn about a user.
@@ -119,7 +114,6 @@ Return ONLY the question text, no explanation.
     try:
         response = llm.invoke(prompt)
         return response.content.strip()
-    except:
         # Fallback questions
         if "what they're looking for" in needs:
             return "What brings you here today? Are you looking for something specific?"
@@ -131,7 +125,7 @@ Return ONLY the question text, no explanation.
             return "What's your budget range for this purchase?"
 
 async def process_chat_message(request: OnboardingChatRequest) -> OnboardingChatResponse:
-    """Main LLM-powered chat processing"""
+    """Process chat message and build identity profile"""
     
     # Build full conversation including new message
     all_messages = request.conversation_history + [
@@ -148,18 +142,14 @@ async def process_chat_message(request: OnboardingChatRequest) -> OnboardingChat
     # Calculate conversation depth
     user_message_count = len([m for m in all_messages if m['role'] == 'user'])
     
-    should_complete = False # Initialize result variable
+    should_complete = False
 
-    # AGGRESSIVE COMPLETION STRATEGY
-    # If we have the basics (Goal + Budget), stop nagging the user after 2 turns.
-    # The "looping" happens when the bot tries to refine details endlessly.
+    # Complete if we have basics after a few turns
     if has_use_case and has_real_budget and user_message_count >= 2:
         should_complete = True
-        next_question = None # Force stop
-    else:
-        # Generate next question normal flow
+        next_question = None
         next_question = await generate_next_question(all_messages, extracted)
-        # Even if next_question is generated, if we have basics and it's getting long, quit.
+        # Also complete if conversation is getting long
         if has_use_case and has_real_budget and user_message_count >= 4:
             should_complete = True
             next_question = None
@@ -196,9 +186,7 @@ async def process_chat_message(request: OnboardingChatRequest) -> OnboardingChat
             partial_data=extracted
         )
     else:
-        # Fallback if next_question is None but we somehow didn't complete (shouldn't happen with logic above)
-        # But if we lack budget/use_case, next_question SHOULD exist.
-        # This catch-all is just in case.
+        # Edge case fallback
         return OnboardingChatResponse(
             message="Could you tell me a bit more about what you're looking for?",
             complete=False,

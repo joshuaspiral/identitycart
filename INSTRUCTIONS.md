@@ -1,129 +1,49 @@
-# IdentityCart - Setup Instructions
+# IdentityCart Setup
 
-This guide will help you run the IdentityCart application locally.
+Quick setup guide for running the project locally.
 
 ## Prerequisites
 
-- **Node.js** (v18 or higher)
-- **Python** (v3.10 or higher)
-- **npm** (comes with Node.js)
-- **pip** (comes with Python)
+- Node.js 18+
+- Python 3.10+
+- OpenRouter API key ([sign up here](https://openrouter.ai/))
 
----
-
-## 1. Backend Setup (FastAPI + AI Agents)
-
-### Install Python Dependencies
+## Backend Setup
 
 ```bash
 cd backend
-pip install fastapi uvicorn langchain-openai langgraph python-dotenv pydantic
-```
 
-### Configure API Key
+# Install dependencies
+pip install -r requirements.txt
 
-1. Create a `.env` file in the `backend` folder:
-   ```
-   backend/.env
-   ```
+# Configure API key
+cp .env.example .env
+# Edit .env and add your OPENROUTER_API_KEY
 
-2. Add your OpenRouter API key:
-   ```
-   OPENROUTER_API_KEY=your_api_key_here
-   ```
-
-   > **Note:** Get your API key from [OpenRouter](https://openrouter.ai/)
-
-### Start the Backend Server
-
-```bash
-cd backend
+# Start server
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
-The backend API will be available at: **http://localhost:8000**
+Backend runs at `http://localhost:8000`
 
----
-
-## 2. Frontend Setup (Next.js)
-
-### Install Node Dependencies
+## Frontend Setup
 
 ```bash
 cd frontend
+
+# Install dependencies
 npm install
-```
 
-### Start the Frontend Server
-
-```bash
-cd frontend
+# Start dev server
 npm run dev
 ```
 
-The frontend will be available at: **http://localhost:3000/onboarding**
+Frontend runs at `http://localhost:3000`
 
----
+## Usage
 
-## 3. Running Both Servers
+1. Open `http://localhost:3000`
+2. Complete the onboarding chat to set up your profile
+3. Search for products and get AI-powered recommendations
 
-You'll need **two terminal windows** to run both servers simultaneously:
 
-| Terminal | Directory | Command |
-|----------|-----------|---------|
-| Terminal 1 | `backend/` | `python -m uvicorn app.main:app --reload --port 8000` |
-| Terminal 2 | `frontend/` | `npm run dev` |
-
----
-
-## 4. Using the Application
-
-1. Open your browser and go to **http://localhost:3000**
-2. Set up your identity profile (role, budget, values)
-3. Start chatting with the AI agents to get personalized product recommendations!
-
----
-
-## Troubleshooting
-
-### "next is not recognized"
-Run `npm install` in the `frontend` folder first.
-
-### "OPENROUTER_API_KEY not set"
-Make sure you created the `.env` file in the `backend` folder with your API key.
-
-### Backend won't start
-Ensure all Python dependencies are installed:
-```bash
-pip install fastapi uvicorn langchain-openai langgraph python-dotenv pydantic
-```
-
-### Port already in use
-- Frontend default: 3000
-- Backend default: 8000
-
-If these ports are busy, you can change them:
-- Frontend: `npm run dev -- -p 3001`
-- Backend: `python -m uvicorn app.main:app --reload --port 8001`
-
----
-
-## Project Structure
-
-```
-identitycart-main/
-├── backend/
-│   ├── app/
-│   │   ├── main.py          # FastAPI server
-│   │   └── agents/
-│   │       └── graph.py     # AI agent logic (Scout, Critic, Guardian, Mentor)
-│   ├── data/
-│   │   └── products.json    # Product database
-│   └── .env                 # API keys (create this!)
-│
-└── frontend/
-    ├── src/
-    │   └── app/             # Next.js pages
-    ├── package.json
-    └── ...
-```

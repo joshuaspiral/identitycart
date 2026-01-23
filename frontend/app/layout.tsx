@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IdentityCart | AI Shopping Assistant",
-  description: "AI agents debate to find your best deal. Universal shopping search for everyone.",
+  title: "IdentityCart | Product Research Tool",
+  description: "Compare products based on your specific needs, budget, and technical requirements.",
 };
 
 export default function RootLayout({

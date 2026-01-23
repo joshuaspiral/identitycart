@@ -20,16 +20,16 @@ export default function Home() {
 
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-black/5 shadow-sm text-sm font-medium text-zinc-600 mb-4">
             <Sparkles className="w-3.5 h-3.5 fill-yellow-400 text-yellow-500" />
-            <span>Shopping reimagined</span>
+            <span>Product Research Tool</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-black leading-[1.1]">
-            Buy less.<br />
-            <span className="text-zinc-400">Buy better.</span>
+            Find the right tech.<br />
+            <span className="text-zinc-400">Without the noise.</span>
           </h1>
 
           <p className="text-xl text-zinc-500 max-w-lg mx-auto leading-relaxed">
-            An AI assistant that understands your values, budget, and style—before you even start searching.
+            A research tool that compares products based on your specific needs, budget, and technical requirements.
           </p>
 
           <div className="pt-8 flex flex-col items-center gap-4">

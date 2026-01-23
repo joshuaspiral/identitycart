@@ -1,6 +1,4 @@
-"""
-Real-time Product Search using SerpAPI (Google Shopping)
-"""
+"""Real-time product search using SerpAPI"""
 
 import os
 import requests
@@ -64,7 +62,7 @@ def search_products(query: str, max_results: int = 10) -> List[Dict[str, Any]]:
         raise  # Propagate error instead of falling back
 
 def parse_price(price_str: str) -> float:
-    """Extract numeric price from string like '$1,999.00'"""
+    """Extract numeric price from string"""
     try:
         # Remove $ and commas
         clean = price_str.replace("$", "").replace(",", "")
@@ -73,10 +71,10 @@ def parse_price(price_str: str) -> float:
         return 0.0
 
 def categorize_product(title: str) -> str:
-    """Guess category from product title"""
+    """Categorize product from title"""
     title_lower = title.lower()
     
-    # Check for specific "Book" laptops first
+    # Check for laptop Book models first
     if "galaxy book" in title_lower or "surface book" in title_lower or "zenbook" in title_lower:
         return "laptop"
         
@@ -100,12 +98,10 @@ def categorize_product(title: str) -> str:
         return "electronics"
 
 def extract_specs(item: Dict) -> Dict[str, str]:
-    """Extract key specs from product metadata"""
+    """Extract key specs from product data"""
     specs = {}
     
-    # 1. Try 'product_attributes' (standard field)
-    # Convert list of dicts/strings to key-value
-    # SerpAPI often gives description or snippets here
+    # Try product_attributes field
     product_attributes = item.get("product_attributes", [])
     if product_attributes:
         for attr in product_attributes:
@@ -133,7 +129,7 @@ def extract_specs(item: Dict) -> Dict[str, str]:
                     if "Memory" not in specs:
                         specs["Memory"] = attr
     
-    # 2. Extract from 'extensions' (common in card view)
+    # Extract from extensions field
     extensions = item.get("extensions", [])
     for ext in extensions:
         # Convert to string if it's not already
@@ -149,7 +145,7 @@ def extract_specs(item: Dict) -> Dict[str, str]:
         elif ("ram" in ext_lower or "memory" in ext_lower) and "Memory" not in specs:
             specs["Memory"] = ext_str
             
-    # 3. Naive extraction from title if specs empty
+    # Extract from title as fallback
     title = item.get("title", "")
     import re
     
@@ -173,7 +169,7 @@ def extract_specs(item: Dict) -> Dict[str, str]:
         if cpu_match:
             specs["Processor"] = cpu_match.group(1)
             
-    # Try to extract real brand from title before falling back to source
+    # Extract brand
     common_brands = ["Samsung", "Apple", "Dell", "HP", "Lenovo", "Asus", "Acer", "LG", "Microsoft", "Razer", "MSI", "Sony", "Bose"]
     for brand in common_brands:
         if brand.lower() in title.lower():
@@ -189,7 +185,7 @@ def extract_specs(item: Dict) -> Dict[str, str]:
     return specs
 
 def generate_tags(title: str) -> List[str]:
-    """Generate relevant tags from title"""
+    """Generate tags from title"""
     tags = []
     title_lower = title.lower()
     
@@ -205,7 +201,7 @@ def generate_tags(title: str) -> List[str]:
     return tags
 
 def calculate_repairability(title: str) -> int:
-    """Estimate repairability score based on brand and device type"""
+    """Estimate repairability score (1-10)"""
     title_lower = title.lower()
     
     # High repairability brands

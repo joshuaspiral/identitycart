@@ -40,7 +40,7 @@ def read_root():
 
 @app.post("/onboarding/chat")
 async def onboarding_chat(request: OnboardingChatRequest):
-    """Conversational AI onboarding endpoint"""
+    """Conversational onboarding to build user profile"""
     try:
         response = await process_chat_message(request)
         return response.dict()
@@ -50,34 +50,27 @@ async def onboarding_chat(request: OnboardingChatRequest):
             "complete": False
         }
 
-# NEW: Refactored chat logic into a separate function
 async def process_chat(request: ChatRequest) -> ChatResponse:
-    """
-    Processes a chat request, including API key validation and graph invocation.
-    """
-    # Check if API key is configured
+    """Process chat request and run agent graph"""
     api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key or api_key == "placeholder_key_not_set":
         return ChatResponse(
             logs=[
-                {"agent": "System", "color": "red", "message": "⚠️ OPENROUTER_API_KEY not configured"},
-                {"agent": "System", "color": "blue", "message": "The AI agent swarm requires an API key to function."},
-                {"agent": "System", "color": "blue", "message": "Get a free key at: https://openrouter.ai/"},
-                {"agent": "System", "color": "blue", "message": "Then run: export OPENROUTER_API_KEY=your_key_here"},
+                {"agent": "System", "color": "red", "message": "⚠️ OPENROUTER_API_KEY not set"},
+                {"agent": "System", "color": "blue", "message": "Get a free API key at https://openrouter.ai/"},
+                {"agent": "System", "color": "blue", "message": "Set it: export OPENROUTER_API_KEY=your_key"}
             ],
             products=[],
-            final_response="## API Key Required\n\nTo use the IdentityCart agent swarm, you need an OpenRouter API key.\n\n**Steps to get started:**\n1. Visit [OpenRouter](https://openrouter.ai/) and sign up\n2. Get your API key from the dashboard\n3. Set the environment variable: `export OPENROUTER_API_KEY=your_key`\n4. Restart the backend server\n\nThe system is ready to go once you have your key!"
+            final_response="## API Key Required\n\nSet OPENROUTER_API_KEY environment variable to use the AI agents.\n\nGet a key at https://openrouter.ai/"
         )
     
-    # Prepare the state for the graph
     initial_state = {
         "messages": [HumanMessage(content=request.message)],
         "user_identity": request.identity,
-        "products": [], # To be filled by Scout
-        "logs": []      # To accumulate agent logs
+        "products": [],
+        "logs": []
     }
 
-    # Run the graph
     result = await graph.ainvoke(initial_state)
     
     return ChatResponse(
@@ -86,19 +79,13 @@ async def process_chat(request: ChatRequest) -> ChatResponse:
         final_response=result.get("messages")[-1].content
     )
 
-# Modified /chat endpoint to use the new process_chat function and response_model
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
-    """
-    Endpoint to trigger the Multi-Agent System.
-    Accepts user identity and a message (search query).
-    Returns a stream of agent thoughts/actions.
-    """
+    """Main chat endpoint - triggers multi-agent product search"""
     try:
         return await process_chat(request)
     except Exception as e:
-        # Log the error on the server side
-        print(f"Error processing chat request: {e}")
+        print(f"Chat error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/products/{product_id}")
